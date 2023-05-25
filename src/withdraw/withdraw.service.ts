@@ -29,7 +29,8 @@ export class WithdrawService {
             })
             try {
                 const withdrawOrder = await this.repo.create({
-                    userId: withdrawOrderEvent.userId,
+                    accountNumber: withdrawOrderEvent.userId,
+                    transactionType: withdrawOrderEvent.transaction_type,
                     oldBalance: balance.toString(),
                     withdrawAmount: withdrawOrderEvent.amount,
                     newBalance: newBalance.toString()

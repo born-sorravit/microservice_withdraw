@@ -16,6 +16,7 @@ export class WithdrawController {
     }
 
     onModuleInit() {
+        this.accountClient.subscribeToResponseOf('get_user_balace')
         this.accountClient.subscribeToResponseOf('update_balance')
     }
 }
