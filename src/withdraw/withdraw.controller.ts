@@ -1,10 +1,13 @@
-import { Controller } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { Controller, Inject } from '@nestjs/common';
+import { ClientKafka, EventPattern } from '@nestjs/microservices';
 import { WithdrawService } from './withdraw.service';
 
 @Controller('withdraw')
 export class WithdrawController {
-    constructor(private readonly withdrawService: WithdrawService) { }
+    constructor(
+        private readonly withdrawService: WithdrawService,
+        @Inject("ACCOUNT_SERVICE") private readonly accountClient: ClientKafka
+    ) { }
 
 
     @EventPattern('withdraw_order')
@@ -13,5 +16,6 @@ export class WithdrawController {
     }
 
     onModuleInit() {
+        this.accountClient.subscribeToResponseOf('update_balance')
     }
 }
